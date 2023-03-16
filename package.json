@@ -1,0 +1,25 @@
+{
+  "name": "catalog",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KonstantinAleksandrov/catalog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KonstantinAleksandrov/catalog/issues"
+  },
+  "homepage": "https://github.com/KonstantinAleksandrov/catalog#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "lowdb": "^5.1.0",
+    "nodemon": "^2.0.21"
+  }
+}
