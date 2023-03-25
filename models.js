@@ -25,10 +25,11 @@ export const deleteElement = async (id) =>{
 }
 export const putElement = async (data) =>{
     await db.read()
-    db.data.catalog.forEach((element) => {
+    db.data.catalog = db.data.catalog.map((element) => {
         if(element.id == data.id){
             element = {...element,...data}
-        } 
+        }
+        return element
     })
     await db.write()
     return db.data.catalog

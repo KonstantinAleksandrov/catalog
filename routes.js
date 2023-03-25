@@ -7,7 +7,7 @@ router.get('/',getController)
 
 router.post('/',postController)
 
-router.delete('/:id',deleteController)
+router.delete('/:id',deleteController) // /catalog?name=name&id=2
 
 router.put('/',putController)
 
