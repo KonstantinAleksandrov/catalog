@@ -1,18 +1,17 @@
 import {getElements,addElement,deleteElement,putElement} from './models.js'
 
 
-export const getController = async (req,res) =>{
+export const getProductsController = async (req,res) =>{
     const catalog = await getElements()
     res.send(catalog)
 }
-export const postController = async (req,res) =>{
+export const addProductController = async (req,res) =>{
     const elem = req.body
-    const catalog = await addElement(elem)
+    const catalog = await addElement(elem.name, elem.description, elem.price, elem.product_type)
     res.send(catalog)
 }
-export const deleteController = async (req,res) =>{
+export const deleteProductController = async (req,res) =>{
     const id = req.params.id
-    console.log(req.params)
     if(!id || !+id){
         res.send('id не найдено или не корректно')
         return
@@ -21,7 +20,7 @@ export const deleteController = async (req,res) =>{
     res.send(catalog)
 }
 
-export const putController = async (req,res)=>{
+export const editProductController = async (req,res)=>{
     const id = req.body.id
     if(!id){
         res.send('поле id не найдено в запросе')
