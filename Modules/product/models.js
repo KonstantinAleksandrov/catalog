@@ -4,34 +4,41 @@ import connection from '../../db.js'
 
 const sqlGetProducts = () => ({text: `SELECT * from public.products`, values: []})
 
-const sqlAddProduct = (name, description, price, product_type) => ({
-    text: 'INSERT INTO public.products(name, description, price, product_type) VALUES ($1, $2, $3, $4)',
-    values: [name, description, price, product_type]
+const sqlAddProduct = (name,price, description) => ({
+    text: 'INSERT INTO public.products(name,price, description) VALUES ($1, $2, $3)',
+    values: [name,price,description]
 })
 
+const sqlDelProduct = (id) =>({
+    text : `DELETE FROM public.products WHERE id=${id}`,
+    values : []
+})
+const sqlPutProduct = (id,name,price, description) =>({
+    text : 
+    `UPDATE public.products SET 
+    ${name ? `name='${name}'`:''}
+    ${!price ? '' : name ? `,price='${price}'` : `price='${price}'`}
+    ${!description ? '': name || price ? `,description='${description}'`:`description='${description}'`} 
+    WHERE id=${id}`,
+    values : []
+})
 export const getElements = async () => {
     const {rows} = await connection.query(sqlGetProducts())
     return rows
 }
-export const addElement = async (name, description, price, product_type) => {
-    await connection.query(sqlAddProduct(name, description, price, product_type))
+export const addElement = async (name,price,description) => {
+    await connection.query(sqlAddProduct(name,price,description))
     const {rows} = await connection.query(sqlGetProducts())
     return rows
 }
 export const deleteElement = async (id) =>{
-    await db.read()
-    db.data.catalog = db.data.catalog.filter((elem)=>elem.id != id)
-    await db.write()
-    return db.data.catalog
+    await connection.query(sqlDelProduct(id))
+    const {rows} = await connection.query(sqlGetProducts())
+    return rows
 }
 export const putElement = async (data) =>{
-    await db.read()
-    db.data.catalog = db.data.catalog.map((element) => {
-        if(element.id == data.id){
-            element = {...element,...data}
-        }
-        return element
-    })
-    await db.write()
-    return db.data.catalog
+    const {id,name,price,description} = data
+    await connection.query(sqlPutProduct(id,name,price,description))
+    const {rows} = await connection.query(sqlGetProducts())
+    return rows
 }
